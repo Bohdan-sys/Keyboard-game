@@ -1,0 +1,15 @@
+.form {
+    &__text {
+        height: 100%;
+        width: 100%;
+
+        textarea {
+            display: inline-block;
+            resize: none;
+            height: 100%;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.6rem;
+        }
+    }
+}

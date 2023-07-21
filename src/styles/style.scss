@@ -1,0 +1,19 @@
+@import './base/nullstyle.scss', 
+'./base/colors.scss', 
+'./base/fonts.scss', 
+'./base/media/index.sass', 
+'./base/container.scss',
+'./components/buttons.scss',
+'./components/list.scss',
+'./components/card.scss',
+'./components/game-control.scss',
+'./components/popup.scss',
+'./components/form.scss';
+
+body {
+    color: $color-white;
+    background-color: $color-black;
+    font-family: 'Nunito', Helvetica, sans-serif;
+    font-size: 1.6rem;
+    overflow: hidden;
+}

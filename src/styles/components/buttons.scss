@@ -1,0 +1,29 @@
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    font-size: 1.8rem;
+    color: $color-black;
+    background-color: transparent;
+    border: 1px solid $color-black;
+    padding: 8px 12px; 
+    text-transform: uppercase;
+
+    &:hover,
+    &:focus {
+      background-color: $color-black;
+      color: $color-white;
+    }
+
+    &.is-inverted {
+        color: $color-white;
+        border-color: $color-white;
+
+        &:hover,
+        &:focus {
+            background-color: $color-white;
+            color: $color-black;
+        }
+    }
+}

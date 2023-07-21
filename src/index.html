@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+@@include('html/head.html', {
+"title": "Main page"
+})
+
+<body>
+    <!-- @@include('html/header.html', {
+    "title": "Welcome to..."
+    }) -->
+    <main>
+        <section class="section">
+            <div class="container">
+                @@include('html/list.html')
+                @@include('html/game-control.html')
+            </div>
+        </section>
+        @@include('html/popup.html')
+    </main>
+    <!-- @@include('html/footer.html') -->
+    <script src="./js/script.min.js"></script>
+    <script src="./js/home.min.js"></script>
+</body>
+
+</html>
