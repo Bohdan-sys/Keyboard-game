@@ -1,3 +1,4 @@
+import { addToDb } from "../utils/db";
 import { List } from "./list";
 import { Popup } from "./popup";
 
@@ -34,16 +35,12 @@ export class AddTextForm {
 
     public submitForm(): void {
         if (this.input.value) {
-            const data = JSON.parse(localStorage.getItem('texter')) || [];
-
             const newData = {
                 "id": Date.now(),
-                "text": `${this.input.value}`,
-                "selected": false,
-                "randomize": false
+                "text": `${this.input.value}`
             }
   
-            localStorage.setItem('texter', JSON.stringify([...data, newData]));
+            addToDb(newData);
             this.popUp?.togglePopup();
             this.list?.createListItem(newData);
             this.input.value = '';

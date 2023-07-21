@@ -1,35 +1,43 @@
-import { AddTextForm } from './addTextForm';
-import { Card } from './card';
+import LanguageDetect from 'languagedetect';
+import { deleteFromDb, getFromDb } from '../utils/db';
 
 export class List {
     private element: HTMLElement;
-    private data;
-    private listItem: HTMLElement[];
+    private data: any[];
+    private lngDetector: LanguageDetect;
+    private classes: any;
 
     constructor(element: HTMLElement) {
         this.element = element;
-        this.data = JSON.parse(localStorage.getItem('texter')) || [];
-        this.listItem;
+        this.data = [];
+        this.lngDetector = new LanguageDetect();
+        this.classes = {
+            listItem: 'js-list-item',
+            card: 'js-card',
+            removeBtn: 'js-card-remove'
+        };
+
         this.init();
     }
 
     private init() : void {
         if (this.element) {
             this.createList();
-            this.getCardInfo();
+            this.element.addEventListener('click', this.createEvents.bind(this));
         }        
     }
 
     public createListItem(data: any): void {
+        const [ detectedLang ] = this.lngDetector.detect(data.text, 1);
         const item = `
             <li class="list__item js-list-item">
                 <div class="card js-card" data-uid="${data.id}">
                     <div class="card__info">
                         <span class="card__lang js-card-lang">
-                            en
+                            ${detectedLang ? detectedLang[0]: ''}
                         </span>
                         <span class="card__symbols js-card-symbols">
-                            3
+                            ${data.text.length}
                         </span>
                     </div>
                     <p class="card__text js-card-text">${data.text}</p>
@@ -40,16 +48,23 @@ export class List {
                 </div>
             </li>
         `;
-        this.element.insertAdjacentHTML('beforeend', item)
+        this.element.insertAdjacentHTML('beforeend', item);
     }
 
-    private createList(): void {
-        this.data?.forEach((element: any) => {
-            this.createListItem(element);
-        });
+    private async createList(): Promise<void> {
+        this.element.innerHTML = '';
+        this.data = await getFromDb();
+        this.data?.forEach((element: any) => this.createListItem(element));
     }
 
-    private getCardInfo(): void {
-        this.listItem?.forEach(item => new Card(item));
+    private createEvents(e: Event): void {
+        const { listItem, card, removeBtn } = this.classes;
+        const target = e.target as HTMLElement;
+        const listElement = target.closest(`.${listItem}`);
+        const cardElement = target.closest(`.${card}`);
+        if (target.classList.contains(removeBtn)) {
+            deleteFromDb(cardElement.getAttribute('data-uid'));
+            listElement.remove();
+        }        
     }
 }   

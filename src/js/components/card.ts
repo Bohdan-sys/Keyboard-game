@@ -1,4 +1,5 @@
 import LanguageDetect from 'languagedetect';
+import { deleteFromDb } from '../utils/db';
 
 export class Card {
     private element: HTMLElement;
@@ -32,7 +33,7 @@ export class Card {
             this.list = this.element.parentElement;
     
             this.createEvents();
-            this.getInfo();
+            // this.getInfo();
         }      
     }
 
@@ -41,13 +42,21 @@ export class Card {
     }
 
     private removeCard(): void {
-        this.element.remove();
+        console.log( this.element);
+        
+        // this.element.remove();
+        
+        
     }
  
-    public getInfo(): void {
-        const lngDetector = new LanguageDetect();
-        const [ detectedLang ] = lngDetector.detect(this.text.textContent, 1);
-        this.symbols.textContent = String(this.text.textContent.length);
-        this.lang.textContent = detectedLang[0];
-    }
+    // public getInfo(): void {
+    //     const lngDetector = new LanguageDetect();
+    //     const [ detectedLang ] = lngDetector.detect(this.text.textContent, 1);
+    //     this.symbols.textContent = String(this.text.textContent.length);
+    //     console.log(lngDetector.detect(this.text.textContent, 1));
+        
+    //     if (detectedLang) {
+    //         this.lang.textContent = detectedLang[0];
+    //     }
+    // }
 }
