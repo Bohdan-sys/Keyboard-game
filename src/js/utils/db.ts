@@ -1,6 +1,7 @@
-export async function getFromDb(): Promise<any> {
+export async function getFromDb(id?: string): Promise<any> {
     try {
-        const res = await fetch('http://localhost:3004/texts', { method: 'GET' });
+
+        const res = await fetch(`http://localhost:3004/texts/${id ? id : ""}`, { method: 'GET' });
         return res.json();
     } catch (error) {
         console.error('Some problems with JSON file', error);

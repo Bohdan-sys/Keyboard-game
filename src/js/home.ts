@@ -1,3 +1,5 @@
+import { WordBar } from "./components/wordBar";
+
 document.addEventListener('DOMContentLoaded', () => {
-    // console.log('home');
+    new WordBar(document.querySelector('.js-word-bar'))
 });

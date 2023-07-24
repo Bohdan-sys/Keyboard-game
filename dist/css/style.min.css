@@ -205,12 +205,13 @@ h6 {
   row-gap: 12px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  margin: 20px 0;
+  padding: 20px 0;
 }
 
 .list__item {
   background-color: #fff;
   width: calc(33.3333333333% - 8px);
+  height: 100%;
 }
 
 .card {
@@ -306,6 +307,63 @@ h6 {
   height: 100%;
   width: 100%;
   padding: 12px;
+  font-size: 1.6rem;
+}
+
+.word-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-height: 100vh;
+  min-width: 100%;
+}
+
+.word-bar__content {
+  background-color: #fff;
+  padding: 20px 0;
+  color: #000;
+  font-size: 3rem;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.word-bar__text-wrapper {
+  position: relative;
+  left: 50%;
+}
+
+.word-bar__text {
+  position: relative;
+  word-break: keep-all;
+  white-space: nowrap;
+}
+
+.word-bar__text .is-correct {
+  background-color: rgba(84, 188, 98, 0.3);
+}
+
+.word-bar__text .is-error {
+  background-color: rgba(249, 91, 92, 0.3);
+}
+
+.word-bar__field {
+  margin-top: 40px;
+}
+
+.word-bar__input {
+  min-width: 320px;
+  padding: 16px 20px;
   font-size: 1.6rem;
 }
 
