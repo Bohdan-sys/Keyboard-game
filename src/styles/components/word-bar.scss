@@ -25,13 +25,20 @@
         position: relative;
         word-break: keep-all;
         white-space: nowrap;
-
-        .is-correct {
-            background-color: rgba($color-green, .3);  
+        color: rgba($color-black, .5); 
+        
+        span:first-child {
+            color: $color-black; 
         }
 
-        .is-error {
-            background-color: rgba($color-red, .3);
+        span.is-correct {
+            background-color: rgba($color-green, .1);
+            color: $color-green; 
+        }
+
+        span.is-error {
+            background-color: rgba($color-red, .1);
+            color: $color-red; 
         }
     }
 

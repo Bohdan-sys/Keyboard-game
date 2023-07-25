@@ -2,7 +2,7 @@ import { addToDb } from "../utils/db";
 import { List } from "./list";
 import { Popup } from "./popup";
 
-export class AddTextForm {
+export class TextForm {
     private element: HTMLElement;
     private input: HTMLTextAreaElement;
     private popUp: Popup;

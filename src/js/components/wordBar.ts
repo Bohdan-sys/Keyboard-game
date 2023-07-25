@@ -1,89 +1,137 @@
 import { getFromDb } from "../utils/db";
+import { Popup } from "./popup";
 
-export class WordBar {
+export class WordBar extends Popup {
     private element: HTMLElement;
-    private textWrapperElement: HTMLElement;
     private textElement: HTMLElement;
     private inputElement: HTMLInputElement;
     private storage: any;
     private data: any;
-    private formattedArr: string[];
-    
-    constructor(element: HTMLElement) {
+    private formattedText: string;
+    private timer: any;
+    private timeDelta: number;
+
+    constructor(element: HTMLElement, targetElement: HTMLElement) {
+        super(targetElement)
         this.element = element;
-        this.textWrapperElement;
         this.textElement;
         this.inputElement;
         this.storage = JSON.parse(localStorage.getItem('selectedAricle')) || [];
         this.data;
-        this.formattedArr;
+        this.formattedText;
+        this.timer;
+        this.timeDelta;
       
         this.init();
     }
 
-    private init() : void {
+    protected init() : void {
         if (this.element) {
-            this.textWrapperElement = this.element.querySelector('.js-word-bar-text-wrapper');
             this.textElement = this.element.querySelector('.js-word-bar-text');
             this.inputElement = this.element.querySelector('.js-word-bar-input');
 
             this.getData().then(() => {
-                this.createEvents();
                 this.shuffleData();
+                this.createEvents();
             });
         }    
     }
 
     private async getData(): Promise<void>  {
-        const { id } = this.storage;
-        if (id) {
-            this.data = await getFromDb(id);            
+        if (this.storage) {
+            this.data = await getFromDb(this.storage.id);            
         }
     }
 
     private shuffleData(): void {
-        const { randomize } = this.storage;
         if (this.data) {
-            const { text } = this.data;
-            const clearedText = text.replace(/\r?\n/g, '');
-            if (randomize) {
-                const randomArr = clearedText
-                .split(' ')
-                .sort(() => Math.random() - 0.5)
-                .join(' ');
-                this.textElement.innerText = randomArr;
+            this.formattedText = this.data.text.replace(/\r?\n/g, '');
+            if (this.storage.randomize) {
+                this.textElement.innerText = this.formattedText = this.formattedText
+                    .split(' ')
+                    .sort(() => Math.random() - 0.5)
+                    .join(' ');
             } else {
-                this.textElement.innerText = clearedText;
+                this.textElement.innerText = this.formattedText;
             }
         }
     }
 
-    private createEvents(): void {        
+    protected createEvents(): void {   
         this.inputElement?.addEventListener('input', () => this.checkWord(this.inputElement.value));
     }
 
+    private removeEvents(): void {
+        this.inputElement?.removeEventListener('input', () => this.checkWord(this.inputElement.value));
+    }
+
     private checkWord(str: string): void {
-        const { text } = this.data;
-        this.textElement.innerHTML = text
-            .split('')
+        const regex = Date.now();
+        this.textElement.innerHTML = [...this.formattedText]
             .map((element: string, index: number) => {
-                if (index < str.length) {
-                    if (element === str[index]) {
-                        return `<span class="is-correct">${element}</span>`;
-                    } else {
-                        return `<span class="is-error">${element}</span>`;
-                    }
-                } else {
-                    return element;
+                if (index < str.length) {                    
+                    return `<span class="${element === str[index] ? 'is-correct' : 'is-error'}">${element}</span>`;
+                } else {   
+                    return element.replace(/^\s*$/, `${regex}`);
                 }
             })
-            .join('');
-        this.calculateWordSize();
+            .join('')
+            .split(`${regex}`)
+            .map((el: string ) => str ? `<span>${el}</span>` : el)
+            .join(' ');
+        this.calculateWordSize();  
+        this.startGame();
     }
 
     private calculateWordSize(): void {
-        const character = [...this.element.querySelectorAll<HTMLElement>('.js-word-bar-text span')];
-        const wordWidth = character.reduce((acc, cur) => acc + cur.offsetWidth, 0);
-        this.textElement.style.left = `-${wordWidth}px`;
+        const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;
+        this.textElement.style.left = `-${character ? character.offsetWidth : 0}px`;  
+    }
+
+    private calculateErrors(): string {
+        const character = [...this.element.querySelectorAll<HTMLElement>('.js-word-bar-text .is-error')];
+        return character.length.toString();
+    }
+
+    private calculateMatches(): string {
+        const character = [...this.element.querySelectorAll<HTMLElement>('.js-word-bar-text .is-correct')];
+        return character.length.toString();
+    }
+
+    private calculateWordsCount(): string {
+        return this.formattedText.split(' ').length.toString();
+    }
+
+    private createTimer(): void {
+        if (this.timer) {
+            const dif = (Date.now() - this.timer) / 1000;
+            this.timeDelta = Math.round(((this.inputElement.value.length * 60 / dif) * 1000) / 1000);
+        } else {
+            this.timer = Date.now();
+        }
+    }
+
+    private startGame(): void {
+        if (this.inputElement.value.length >= this.formattedText.length) {
+            this.inputElement.disabled = true;
+            this.removeEvents();
+            this.createInfo();
+            this.togglePopup();     
+        } else {
+            this.createTimer();
+        }
+    }
+
+    private createInfo(): void {
+        const content = this.targetElement.firstElementChild;
+        const item = `
+            ${this.storage.randomize ?' <p>Game mode : randomize</p>' : ''}
+            <p>Errors count : ${this.calculateErrors()} symbols</p>
+            <p>Matches count : ${this.calculateMatches()} symbols</p>
+            <p>Symbols per minute : ${this.calculateMatches()} symbols</p>
+            <p>Words count : ${this.calculateWordsCount()}</p>
+            <p>Symbols per minute : ${this.timeDelta}</p>
+            `
+        content?.insertAdjacentHTML('beforeend', item);
     }
 }

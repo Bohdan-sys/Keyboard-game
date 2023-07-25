@@ -1,24 +1,24 @@
 export class Popup {
-    private element: HTMLElement;
+    protected targetElement: HTMLElement;
     private openPopupBtn: HTMLElement;
 
     constructor(element: HTMLElement) {
-        this.element = element;
+        this.targetElement = element;
         this.openPopupBtn;
 
         this.init();
     }
 
-    private init() : void {
-        if (this.element) {
+    protected init() : void {
+        if (this.targetElement) {
             this.openPopupBtn = document.querySelector('.js-open-popup');
             this.createEvents();
         }    
     }
 
-    private createEvents(): void {
-        this.element.addEventListener('click', ({ target }) => {
-            if (target === this.element) {
+    protected createEvents(): void {
+        this.targetElement.addEventListener('click', ({ target }) => {
+            if (target === this.targetElement) {
                 this.togglePopup();
             }
         });
@@ -27,6 +27,7 @@ export class Popup {
     }
 
     public togglePopup(): void {
-        this.element.classList.toggle('is-active');
+        this.targetElement.classList.toggle('is-active');
+        document.body.classList.toggle('is-popup-open');
     }
 }
