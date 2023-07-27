@@ -37,7 +37,7 @@ export class TextForm {
         if (this.input.value) {
             const newData = {
                 "id": Date.now(),
-                "text": `${this.input.value.replace(/<[^>]*>|[^a-zA-Z0-9,;\-.!?<> ]/g, '')}`
+                "text": `${this.input.value.replace(/<\/?[^>]+(>|$)/g, '')}`
             }
   
             addToDb(newData);

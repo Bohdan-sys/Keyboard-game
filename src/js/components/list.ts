@@ -37,9 +37,7 @@ export class List {
             <li class="list__item js-list-item">
                 <div class="card js-card" data-uid="${data.id}">
                     <div class="card__info">
-                        <span class="card__lang">
-                            Lang: ${detectedLang ? detectedLang[0]: ''}
-                        </span>
+                        ${detectedLang ? `<span class="card__lang"> Lang: ${detectedLang[0]}</span>`: '' }
                         <span class="card__symbols">
                             Symbols count: ${data.text.length}
                         </span>
