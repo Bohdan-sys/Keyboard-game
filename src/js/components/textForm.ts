@@ -1,6 +1,6 @@
-import { addToDb } from "../utils/db";
-import { List } from "./list";
-import { Popup } from "./popup";
+import { addToDb } from '../utils/db';
+import { List } from './list';
+import { Popup } from './popup';
 
 export class TextForm {
     private element: HTMLElement;
@@ -37,7 +37,7 @@ export class TextForm {
         if (this.input.value) {
             const newData = {
                 "id": Date.now(),
-                "text": `${this.input.value}`
+                "text": `${this.input.value.replace(/<[^>]*>|[^a-zA-Z0-9,;\-.!?<> ]/g, '')}`
             }
   
             addToDb(newData);

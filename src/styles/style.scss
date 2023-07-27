@@ -14,8 +14,9 @@
 body {
     color: $color-white;
     background-color: $color-black;
-    font-family: 'Nunito', Helvetica, sans-serif;
+    font-family: 'Montserrat', Helvetica, sans-serif;
     font-size: 1.6rem;
+    line-height: 1.2;
 
     &.is-popup-open {
         overflow: hidden;

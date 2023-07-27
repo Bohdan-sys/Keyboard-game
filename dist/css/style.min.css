@@ -89,50 +89,50 @@ h6 {
 
 @font-face {
   font-display: swap;
-  font-family: "Nunito";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 300;
-  src: local("Nunito Light"), local("Nunito-Light"), url("../fonts/Nunito/Nunito-Light.woff2") format("woff2");
+  src: local("Montserrat Light"), local("Montserrat-Light"), url("../fonts/Montserrat/Montserrat-Light.woff2") format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "PNunito";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
-  src: url("../fonts/Nunito/Nunito-Regular.woff2") format("woff2");
+  src: url("../fonts/Montserrat/Montserrat-Regular.woff2") format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Nunito";
+  font-family: "Montserrat";
   font-style: italic;
   font-weight: 400;
-  src: local("Nunito Italic"), local("Nunito-Italic"), url("../fonts/Nunito/Nunito-Italic.woff2") format("woff2");
+  src: local("Montserrat Italic"), local("Montserrat-Italic"), url("../fonts/Montserrat/Montserrat-Italic.woff2") format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Nunito";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 500;
-  src: local("Nunito Medium"), local("Nunito-Medium"), url("../fonts/Nunito/Nunito-Medium.woff2") format("woff2");
+  src: local("Montserrat Medium"), local("Montserrat-Medium"), url("../fonts/Montserrat/Montserrat-Medium.woff2") format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Nunito";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
-  src: local("Nunito Bold"), local("Nunito-Bold"), url("../fonts/Nunito/Nunito-Bold.woff2") format("woff2");
+  src: local("Montserrat Bold"), local("Montserrat-Bold"), url("../fonts/Montserrat/Montserrat-Bold.woff2") format("woff2");
 }
 
 @font-face {
   font-display: swap;
-  font-family: "Nunito";
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 900;
-  src: local("Nunito Black"), local("Nunito-Black"), url("../fonts/Nunito/Nunito-Black.woff2") format("woff2");
+  src: local("Montserrat Black"), local("Montserrat-Black"), url("../fonts/Montserrat/Montserrat-Black.woff2") format("woff2");
 }
 
 .container {
@@ -230,9 +230,13 @@ h6 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
 .card__lang {
@@ -356,8 +360,8 @@ h6 {
 }
 
 .word-bar__text span.is-correct {
-  background-color: rgba(84, 188, 98, 0.1);
-  color: #54bc62;
+  background-color: rgba(29, 174, 48, 0.1);
+  color: #1dae30;
 }
 
 .word-bar__text span.is-error {
@@ -365,8 +369,10 @@ h6 {
   color: #f95b5c;
 }
 
-.word-bar__text.is-random span:first-child {
-  display: inline;
+.word-bar__text.is-random > span:first-child {
+  display: inline-block;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
 }
 
 .word-bar__text.is-random span.is-complete {
@@ -390,8 +396,9 @@ h6 {
 body {
   color: #fff;
   background-color: #000;
-  font-family: "Nunito", Helvetica, sans-serif;
+  font-family: "Montserrat", Helvetica, sans-serif;
   font-size: 1.6rem;
+  line-height: 1.2;
 }
 
 body.is-popup-open {
@@ -411,6 +418,10 @@ body.is-popup-open {
 
   .list__item {
     width: 100%;
+  }
+
+  .word-bar__content {
+    font-size: 2rem;
   }
 }
 

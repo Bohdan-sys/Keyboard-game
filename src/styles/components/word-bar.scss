@@ -14,6 +14,10 @@
         overflow: hidden;
         width: 100%;
         position: relative;
+
+        @include mq-till-md() {
+            font-size: 2rem;
+        }
     }
 
     &__text-wrapper {
@@ -43,9 +47,11 @@
         }
 
         &.is-random {
-            span:first-child {
-                display: inline;
+            > span:first-child {
+                display: inline-block;
+                transform: translateX(50%);
             }
+
             span.is-complete {
                 display: none;
             }

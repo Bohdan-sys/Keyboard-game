@@ -38,10 +38,10 @@ export class List {
                 <div class="card js-card" data-uid="${data.id}">
                     <div class="card__info">
                         <span class="card__lang">
-                            ${detectedLang ? detectedLang[0]: ''}
+                            Lang: ${detectedLang ? detectedLang[0]: ''}
                         </span>
                         <span class="card__symbols">
-                            ${data.text.length}
+                            Symbols count: ${data.text.length}
                         </span>
                     </div>
                     <p class="card__text">${data.text}</p>
@@ -67,11 +67,13 @@ export class List {
         const listElement = target.closest(`.${listItem}`);
         const cardElement = target.closest(`.${card}`);
         const cardElementId = cardElement?.getAttribute('data-uid');
+
         if (target.classList.contains(removeBtn) && cardElementId) {
             deleteFromDb(cardElementId);
             listElement.remove();
             this.clearStorage();
         } 
+        
         if (target.classList.contains(startBtn) && cardElementId) {
             this.setStorage(cardElementId);
             window.location.href = 'home.html';

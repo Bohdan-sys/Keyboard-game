@@ -1,5 +1,5 @@
-import { getFromDb } from "../utils/db";
-import { Popup } from "./popup";
+import { getFromDb } from '../utils/db';
+import { Popup } from './popup';
 
 export class WordBar extends Popup {
     private element: HTMLElement;
@@ -49,6 +49,7 @@ export class WordBar extends Popup {
             if (this.storage.randomize) {
                 this.textElement.classList.add('is-random');
                 this.textElement.innerText = this.formattedText = this.formattedText
+                    .replace(/[&\/\\#,+()$~%.'":*?!<>{}]/g, '')
                     .split(' ')
                     .sort(() => Math.random() - 0.5)
                     .join(' ');
@@ -81,16 +82,17 @@ export class WordBar extends Popup {
         .map((el: string ) => str ? `<span>${el}</span>` : el)
         .join(' '); 
 
-        if (this.storage.randomize) {
-            this.randomMode();
-        }
-
         this.checkGameStatus();
         this.calculateWordSize();
     }
 
     private calculateWordSize(): void {
         const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;  
+        character.childNodes.forEach((element: any) => {
+        console.log(element.offsetWidth);
+        
+       });
+        
         this.textElement.style.left = `-${character ? character.offsetWidth : 0}px`;  
     }
 
@@ -122,10 +124,14 @@ export class WordBar extends Popup {
             this.inputElement.disabled = true;
             this.removeEvents();
             this.createInfo();
-            this.togglePopup();     
+            this.togglePopup();
         } else {
             this.createTimer();
         }
+
+        if (this.storage.randomize) {
+            this.randomMode();
+        }     
     }
 
     private randomMode(): void {
@@ -143,9 +149,8 @@ export class WordBar extends Popup {
         const content = this.targetElement.firstElementChild;
         const item = `
             ${this.storage.randomize ?' <p>Game mode : randomize</p>' : ''}
-            <p>Errors count : ${this.calculateErrors()} symbols</p>
-            <p>Matches count : ${this.calculateMatches()} symbols</p>
-            <p>Symbols per minute : ${this.calculateMatches()} symbols</p>
+            <p>Errors count : ${this.calculateErrors()}</p>
+            <p>Matches count : ${this.calculateMatches()}</p>
             <p>Words count : ${this.calculateWordsCount()}</p>
             <p>Symbols per minute : ${this.timeDelta}</p>
             `
