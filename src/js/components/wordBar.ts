@@ -147,7 +147,7 @@ export class WordBar extends Popup {
             <p>Errors count : ${this.calculateErrors()}</p>
             <p>Matches count : ${this.calculateMatches()}</p>
             <p>Words count : ${this.calculateWordsCount()}</p>
-            <p>Symbols per minute : ${this.timeDelta}</p>
+            <p>Symbols per minute : ${this.timeDelta ? this.timeDelta : 0}</p>
             `
         content?.insertAdjacentHTML('beforeend', item);
     }
