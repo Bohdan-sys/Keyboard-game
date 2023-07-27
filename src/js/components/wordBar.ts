@@ -47,6 +47,7 @@ export class WordBar extends Popup {
         if (this.data) {
             this.formattedText = this.data.text.replace(/\r?\n/g, '');
             if (this.storage.randomize) {
+                this.textElement.classList.add('is-random');
                 this.textElement.innerText = this.formattedText = this.formattedText
                     .split(' ')
                     .sort(() => Math.random() - 0.5)
@@ -68,23 +69,28 @@ export class WordBar extends Popup {
     private checkWord(str: string): void {
         const regex = Date.now();
         this.textElement.innerHTML = [...this.formattedText]
-            .map((element: string, index: number) => {
-                if (index < str.length) {                    
-                    return `<span class="${element === str[index] ? 'is-correct' : 'is-error'}">${element}</span>`;
-                } else {   
-                    return element.replace(/^\s*$/, `${regex}`);
-                }
-            })
-            .join('')
-            .split(`${regex}`)
-            .map((el: string ) => str ? `<span>${el}</span>` : el)
-            .join(' ');
-        this.calculateWordSize();  
-        this.startGame();
+        .map((element: string, index: number) => {
+            if (index < str.length) {                    
+                return `<span class="${element === str[index] ? 'is-correct' : 'is-error'}">${element}</span>`;
+            } else {   
+                return element.replace(/^\s*$/, `${regex}`);
+            }
+        })
+        .join('')
+        .split(`${regex}`)
+        .map((el: string ) => str ? `<span>${el}</span>` : el)
+        .join(' '); 
+
+        if (this.storage.randomize) {
+            this.randomMode();
+        }
+
+        this.checkGameStatus();
+        this.calculateWordSize();
     }
 
     private calculateWordSize(): void {
-        const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;
+        const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;  
         this.textElement.style.left = `-${character ? character.offsetWidth : 0}px`;  
     }
 
@@ -111,7 +117,7 @@ export class WordBar extends Popup {
         }
     }
 
-    private startGame(): void {
+    private checkGameStatus(): void {
         if (this.inputElement.value.length >= this.formattedText.length) {
             this.inputElement.disabled = true;
             this.removeEvents();
@@ -120,6 +126,17 @@ export class WordBar extends Popup {
         } else {
             this.createTimer();
         }
+    }
+
+    private randomMode(): void {
+        const character = [...this.element.querySelectorAll<HTMLElement>('.js-word-bar-text span *')];   
+        character.forEach((element, index) => {
+            if (element.textContent.trim() === '') {
+                for (let i = 0; i <= index; i++) {
+                    character[i].classList.add('is-complete');
+                }
+            }
+        });
     }
 
     private createInfo(): void {

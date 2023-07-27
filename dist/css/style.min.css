@@ -365,6 +365,18 @@ h6 {
   color: #f95b5c;
 }
 
+.word-bar__text.is-random span:first-child {
+  display: inline;
+}
+
+.word-bar__text.is-random span.is-complete {
+  display: none;
+}
+
+.word-bar__text.is-random > span {
+  display: none;
+}
+
 .word-bar__field {
   margin-top: 40px;
 }

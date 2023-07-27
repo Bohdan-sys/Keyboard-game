@@ -31,6 +31,7 @@
             color: $color-black; 
         }
 
+
         span.is-correct {
             background-color: rgba($color-green, .1);
             color: $color-green; 
@@ -39,6 +40,19 @@
         span.is-error {
             background-color: rgba($color-red, .1);
             color: $color-red; 
+        }
+
+        &.is-random {
+            span:first-child {
+                display: inline;
+            }
+            span.is-complete {
+                display: none;
+            }
+
+            > span {
+                display: none;
+            }
         }
     }
 
