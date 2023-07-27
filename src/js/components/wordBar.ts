@@ -87,12 +87,7 @@ export class WordBar extends Popup {
     }
 
     private calculateWordSize(): void {
-        const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;  
-        character.childNodes.forEach((element: any) => {
-        console.log(element.offsetWidth);
-        
-       });
-        
+        const character = this.element.querySelector('.js-word-bar-text > span') as HTMLElement;        
         this.textElement.style.left = `-${character ? character.offsetWidth : 0}px`;  
     }
 
